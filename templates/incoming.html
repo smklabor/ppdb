@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Surat Masuk & Disposisi</h3>
+<form method="post" class="card card-body mb-4">
+  <div class="row g-2">
+    <div class="col-md-2"><input name="number" class="form-control" placeholder="No surat" required></div>
+    <div class="col-md-3"><input name="subject" class="form-control" placeholder="Perihal" required></div>
+    <div class="col-md-2"><input name="sender" class="form-control" placeholder="Pengirim" required></div>
+    <div class="col-md-3">
+      <select name="category_id" class="form-select" required>
+        {% for c in categories %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2"><button class="btn btn-primary w-100">Simpan</button></div>
+  </div>
+</form>
+<table class="table table-bordered table-sm">
+  <tr><th>No</th><th>Surat</th><th>Kategori</th><th>Disposisi</th></tr>
+  {% for l in letters %}
+  <tr>
+    <td>{{ loop.index }}</td>
+    <td><b>{{ l.number }}</b><br>{{ l.subject }}<br><small>{{ l.sender }}</small></td>
+    <td>{{ l.category.name }}</td>
+    <td>
+      <form method="post" action="{{ url_for('disposition', letter_id=l.id) }}" class="d-flex gap-1">
+        <select name="disposition_to" class="form-select form-select-sm">
+          {% for role in roles %}<option {% if l.disposition_to==role %}selected{% endif %}>{{ role }}</option>{% endfor %}
+        </select>
+        <input name="disposition_note" value="{{ l.disposition_note or '' }}" class="form-control form-control-sm" placeholder="Catatan">
+        <button class="btn btn-sm btn-outline-primary">Update</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
