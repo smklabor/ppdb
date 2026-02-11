@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Kategori Surat</h3>
+<form method="post" class="row g-2 mb-3">
+  <div class="col-md-6"><input name="name" class="form-control" placeholder="Nama kategori" required></div>
+  <div class="col-md-2"><button class="btn btn-primary">Tambah</button></div>
+</form>
+<table class="table table-striped">
+  <tr><th>No</th><th>Nama</th></tr>
+  {% for c in categories %}
+  <tr><td>{{ loop.index }}</td><td>{{ c.name }}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Dashboard</h3>
+<p>Role login: <strong>{{ current_user.role }}</strong></p>
+<div class="row g-3 mb-4">
+  <div class="col-md-3"><div class="card card-body bg-primary text-white">Surat Masuk: {{ incoming_count }}</div></div>
+  <div class="col-md-3"><div class="card card-body bg-success text-white">Surat Keluar: {{ outgoing_count }}</div></div>
+  <div class="col-md-3"><div class="card card-body bg-secondary text-white">Super Admin: {{ role_count['super_admin'] }}</div></div>
+  <div class="col-md-3"><div class="card card-body bg-dark text-white">Staff: {{ role_count['staff'] }}</div></div>
+</div>
+<div class="card p-3">
+  <h5>Grafik Surat Masuk per Bulan</h5>
+  <canvas id="chartIncoming"></canvas>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+new Chart(document.getElementById('chartIncoming'), {
+  type: 'bar',
+  data: {
+    labels: {{ labels | tojson }},
+    datasets: [{ label: 'Surat Masuk', data: {{ values | tojson }}, backgroundColor: '#0d6efd' }]
+  }
+});
+</script>
+{% endblock %}
